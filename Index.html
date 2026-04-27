@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><3</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        .container {
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .ui_love_word {
+            color: #ea80b0;
+            font-size: 1rem;
+            font-family: Arial, sans-serif;
+            position: absolute;
+            text-shadow: 0 0 8px #ffb3d9;
+            white-space: nowrap;
+            opacity: 0;
+            animation: heart-anim 6s infinite linear;
+        }
+
+        @keyframes heart-anim {
+            0% { 
+                opacity: 0; 
+                transform: translate3d(var(--x), var(--y), 0) scale(0.8); 
+            }
+            10% { 
+                opacity: 1; 
+                transform: translate3d(var(--x), var(--y), 0) scale(1); 
+            }
+            70% { 
+                opacity: 1; 
+                transform: translate3d(var(--x), var(--y), 0) scale(1); 
+            }
+            100% { 
+                opacity: 0; 
+                transform: translate3d(var(--x), var(--y), 0) scale(0.9); 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="heart-container"></div>
+
+    <script>
+        const text = "I love you";
+        const container = document.getElementById("heart-container");
+        const totalWords = 60; 
+
+        function createHeart() {
+            for (let i = 0; i < totalWords; i++) {
+                const wordElement = document.createElement("div");
+                wordElement.className = "ui_love_word";
+                wordElement.innerText = text;
+
+                const angle = (i / totalWords) * 2 * Math.PI;
+
+                const x = 16 * Math.pow(Math.sin(angle), 3);
+                const y = -(13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle));
+
+                const scale = 13; 
+                const finalX = x * scale;
+                const finalY = y * scale;
+
+                wordElement.style.setProperty('--x', `${finalX}px`);
+                wordElement.style.setProperty('--y', `${finalY}px`);
+
+                const delay = i * 0.1; 
+                wordElement.style.animationDelay = `${delay}s`;
+
+                container.appendChild(wordElement);
+            }
+        }
+
+        createHeart();
+    </script>
+</body>
+</html>
